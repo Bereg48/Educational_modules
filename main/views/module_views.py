@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
 
 from main.models import Module
 from main.serializers import ModuleSerializer
@@ -10,6 +11,7 @@ class ModuleListAPIView(generics.ListAPIView):
         класса ModuleSerializer, который функционирует в соответствии с определенной моделью класса Module"""
     queryset = Module.objects.all().order_by('id')
     serializer_class = ModuleSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class ModuleCreateAPIView(generics.CreateAPIView):

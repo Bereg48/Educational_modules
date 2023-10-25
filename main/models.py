@@ -5,7 +5,7 @@ from users.models import User
 
 class Module(models.Model):
     """Модель Module"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, verbose_name='пользователь')
     number = models.IntegerField(verbose_name='порядковый номер модуля')
     title = models.CharField(max_length=150, verbose_name='название модуля')
     description = models.TextField(verbose_name='описание модуля')
