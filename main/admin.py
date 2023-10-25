@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from main.models import Module, Section, Topic
+from main.models import Module, Section, Topic, Payment
 
 
 @admin.register(Module)
@@ -25,3 +25,11 @@ class ModuleTopic(admin.ModelAdmin):
     list_display = ('section', 'number', 'title', 'description')
     list_filter = ('title', 'section',)
     search_fields = ('section',)
+
+
+@admin.register(Payment)
+class ModulePayment(admin.ModelAdmin):
+    """Класс ModulePayment для отображения, фильтрации и поиска модели Payment"""
+    list_display = ('user', 'module', 'amount', 'payment_date')
+    list_filter = ('module', 'amount', 'payment_date',)
+    search_fields = ('user',)
