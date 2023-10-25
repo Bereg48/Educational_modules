@@ -56,8 +56,8 @@ class Topic(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Раздел'
-        verbose_name_plural = 'Разделы'
+        verbose_name = 'Тема'
+        verbose_name_plural = 'Темы'
         ordering = ['id']
 
     def can_access(self, user):
