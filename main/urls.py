@@ -1,7 +1,13 @@
 from django.urls import path
 
 from .apps import MainConfig
-from .views import *
+from .views.module_views import ModuleListAPIView, ModuleCreateAPIView, ModuleRetrieveAPIView, ModuleUpdateAPIView, \
+    ModuleDestroyAPIView
+from .views.payment_views import PaymentCreateAPIView
+from .views.section_views import SectionListAPIView, SectionCreateAPIView, SectionRetrieveAPIView, SectionUpdateAPIView, \
+    SectionDestroyAPIView
+from .views.topic_views import TopicListAPIView, TopicCreateAPIView, TopicRetrieveAPIView, TopicUpdateAPIView, \
+    TopicDestroyAPIView
 
 app_name = MainConfig.name
 
@@ -21,5 +27,6 @@ urlpatterns = [
     path('topic/<int:pk>/', TopicRetrieveAPIView.as_view(), name='topic-retrieve'),
     path('topic/update/<int:pk>/', TopicUpdateAPIView.as_view(), name='topic-update'),
     path('topic/delete/<int:pk>/', TopicDestroyAPIView.as_view(), name='topic-destroy'),
+    path('payment/create/<int:module_id>/', PaymentCreateAPIView.as_view(), name='payment-create'),
 
 ]
