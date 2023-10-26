@@ -24,3 +24,4 @@ class PaymentCreateAPIView(generics.CreateAPIView):
         payment = Payment(user=user, module=module, amount=payment_amount)
         payment.save()
         return Response({'message': 'Payment successful'})
+

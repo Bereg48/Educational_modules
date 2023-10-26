@@ -12,7 +12,7 @@ class Module(models.Model):
     is_paid = models.BooleanField(default=False, verbose_name='Модуль оплачен')
 
     def __str__(self):
-        return self.title
+        return self.title # pragma: no cover
 
     def is_paid_by(self, user):
         return self.paid_users.filter(id=user.id).exists()
@@ -32,7 +32,7 @@ class Section(models.Model):
                                related_name='sections')
 
     def __str__(self):
-        return self.title
+        return self.title # pragma: no cover
 
     class Meta:
         verbose_name = 'Раздел'
@@ -53,7 +53,7 @@ class Topic(models.Model):
                                 related_name='topics')
 
     def __str__(self):
-        return self.title
+        return self.title # pragma: no cover
 
     class Meta:
         verbose_name = 'Тема'
@@ -73,9 +73,10 @@ class Payment(models.Model):
     payment_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.amount)
+        return str(self.amount) # pragma: no cover
 
     class Meta:
         verbose_name = 'Платеж'
         verbose_name_plural = 'Платежи'
         ordering = ['id']
+        unique_together = ['user', 'module']

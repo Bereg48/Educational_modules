@@ -79,16 +79,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 ## DATABASES Docker
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'HOST': 'db',
-#         'PORT': 5432,  # Адрес, на котором развернут сервер БД
-#         'PASSWORD': 'mysecretpassword',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
+        'PASSWORD': 454125,
+    }
+}
 
 ## DATABASES local
 
@@ -103,16 +103,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'educational',
-        'USER': 'postgres',
-        'HOST': '127.0.0.1',  # Адрес, на котором развернут сервер БД
-        'PORT': 5432,  # Порт, на котором работает сервер БД
-        'PASSWORD': 454125,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'educational',
+#         'USER': 'postgres',
+#         'HOST': '127.0.0.1',  # Адрес, на котором развернут сервер БД
+#         'PORT': 5432,  # Порт, на котором работает сервер БД
+#         'PASSWORD': 454125,
+#     }
+# }
 
 
 

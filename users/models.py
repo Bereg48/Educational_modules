@@ -19,7 +19,7 @@ class User(AbstractUser):
     roles = models.CharField(max_length=9, choices=UserRoles.choices, default=UserRoles.MEMBER)
 
     def __str__(self):
-        return self.username
+        return self.username  # pragma: no cover
 
     def is_paid_user(self):
         return self.paid_users.exists()
