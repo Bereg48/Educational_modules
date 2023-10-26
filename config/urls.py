@@ -20,6 +20,8 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
+from main.views.payment_views import PaymentCreateAPIView
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",
@@ -37,7 +39,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls', namespace='main')),
     path('user/', include('users.urls', namespace='users')),
-
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('payment/create/<int:module_id>/',
+         PaymentCreateAPIView.as_view(), name='payment-create'),
+    path('swagger/',
+         schema_view.with_ui('swagger', cache_timeout=0),
+         name='schema-swagger-ui'),
+    path('redoc/',
+         schema_view.with_ui('redoc', cache_timeout=0),
+         name='schema-redoc'),
 ]

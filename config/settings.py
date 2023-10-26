@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
-from dotenv import load_dotenv  # pragma: no cover
+# from dotenv import load_dotenv  # pragma: no cover
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'drf_yasg',
 
     'rest_framework',
     'main',
@@ -77,7 +79,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-## DATABASES Docker
+# DATABASES Docker
 
 # DATABASES = {
 #     'default': {
@@ -85,19 +87,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'NAME': 'postgres',
 #         'USER': 'postgres',
 #         'HOST': 'db',
-#         'PORT': 5432,  # Адрес, на котором развернут сервер БД
-#         'PASSWORD': 'mysecretpassword',
+#         'PORT': 5432,
+#         'PASSWORD': 454125,
 #     }
 # }
 
-## DATABASES local
+# DATABASES local
 
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': os.getenv("NAME_DB"),
 #         'USER': os.getenv("USER_DB"),
-#         'HOST': os.getenv("HOST_DB"),  # Адрес, на котором развернут сервер БД
+#         'HOST': os.getenv("HOST_DB"),  # Адрес, на котором разв-т сервер БД
 #         'PORT': os.getenv("PORT_DB"),  # Порт, на котором работает сервер БД
 #         'PASSWORD': os.getenv("DB_PASSWORD"),
 #     }
@@ -113,8 +115,6 @@ DATABASES = {
         'PASSWORD': 454125,
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -176,7 +176,6 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-
 CORS_ALLOWED_ORIGINS = [
     "https://read-only.example.com",
     "https://read-and-write.example.com",
@@ -194,8 +193,3 @@ CELERY_TASK_TRACK_STARTED = True  # pragma: no cover
 
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
-
-
-
-
-
