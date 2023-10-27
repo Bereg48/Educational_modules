@@ -3,11 +3,12 @@ from main.validators import TitleValidator, validator_description_words
 from django.test import TestCase
 from .serializers import ModuleSerializer
 import unittest
-from main.models import Module, Section
+from main.models import Module, Section, Payment
 from rest_framework.test import APITestCase
 from rest_framework import status
 from users.models import User
 from django.urls import reverse
+from rest_framework.test import APIClient
 
 
 class ModuleSerializerTests(TestCase):
@@ -36,7 +37,7 @@ class ModuleSerializerTests(TestCase):
 
     def test_module_serializer_fields(self):
         self.assertEqual(set(self.serializer.fields.keys()),
-                         set(['id', 'user', 'number', 'title','description', 'is_paid']))
+                         set(['id', 'user', 'number', 'title', 'description', 'is_paid']))
 
     def test_module_serializer_data(self):
         data = self.serializer.data
@@ -111,6 +112,7 @@ class SectionListAPIViewTest(APITestCase):
             is_paid=True
         )
         self.section = Section.objects.create(
+            user=self.user,
             number=1,
             title='Test Section',
             module=self.module
@@ -123,3 +125,35 @@ class SectionListAPIViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['title'], self.section.title)
+
+
+class PaymentCreateAPIViewTestCase(TestCase):
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.user,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+        self.payment_amount = 100
+
+    def test_create_payment(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse('main:payment-create', kwargs={'module_id': self.module.id})
+        data = {'amount': self.payment_amount}
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data, {'message': 'Payment successful'})
+        self.assertEqual(Payment.objects.count(), 1)
+        payment = Payment.objects.first()
+        self.assertEqual(payment.user, self.user)
+        self.assertEqual(payment.module, self.module)
+        self.assertEqual(payment.amount, self.payment_amount)
