@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -10,20 +10,15 @@ class PaymentCreateAPIView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]  # требуется аутентификация пользователя
     serializer_class = PaymentSerializer
 
-    def post(self, request, module_id):
-        """Метод post обрабатывает POST-запросы для создания нового платежа.
-        Принимает два аргумента: `request` - объект запроса
-        и `module_id` - идентификатор модуля, для которого будет создан платеж.
-        Сначала мы получаем объект модуля с помощью Module.objects.get(id=module_id),
-        используя переданный в запросе идентификатор module_id. Затем получаем
-        текущего пользователя через request.user. Далее, создаем новый объект `Payment`,
-        указывая пользователя (`user`), модуль (`module`) и сумму платежа (`payment_amount`).
-        После сохранения объекта `Payment` в базу данных с помощью `payment.save()`,
-        возвращается ответ `Response` с сообщением 'Payment successful'.
-        Это означает, что платеж успешно создан."""
+    def create(self, request, *args, **kwargs):
+        """метод `create` переопределен, чтобы обработать POST-запросы.
+        Он принимает аргументы `request`, `*args` и `**kwargs`. `request`
+        содержит информацию о запросе. `*args` и `**kwargs` позволяют
+        передавать дополнительные аргументы не известные заранее."""
+        module_id = kwargs.get('module_id')
         module = Module.objects.get(id=module_id)
         user = request.user
         payment_amount = 100  # Пример суммы платежа
         payment = Payment(user=user, module=module, amount=payment_amount)
         payment.save()
-        return Response({'message': 'Payment successful'})
+        return Response({'message': 'Payment successful'}, status=status.HTTP_201_CREATED)
