@@ -1,10 +1,9 @@
 from rest_framework.exceptions import ValidationError
-from rest_framework.reverse import reverse
 from main.validators import TitleValidator, validator_description_words
 from django.test import TestCase
 from .serializers import ModuleSerializer
 import unittest
-from main.models import Module, Payment, Section
+from main.models import Module, Section
 from rest_framework.test import APITestCase
 from rest_framework import status
 from users.models import User
@@ -12,9 +11,11 @@ from django.urls import reverse
 
 
 class ModuleSerializerTests(TestCase):
-    """Класс ModuleSerializerTests тестирует функциональности ModuleSerializer. Проверяет, что все указанные поля
-    `fields` в `ModuleSerializer`, присутствуют в сериализованных данных. Также Проверяет, что данные
-    в сериализаторе соответствуют данным модуля, который мы создали в `setUp`."""
+    """Класс ModuleSerializerTests тестирует функциональности
+    ModuleSerializer. Проверяет, что все указанные поля
+    `fields` в `ModuleSerializer`, присутствуют в сериализованных
+    данных. Также Проверяет, что данные в сериализаторе соответствуют
+    данным модуля, который мы создали в `setUp`."""
 
     def setUp(self):
         self.user = User.objects.create(username='testuser')
@@ -35,7 +36,7 @@ class ModuleSerializerTests(TestCase):
 
     def test_module_serializer_fields(self):
         self.assertEqual(set(self.serializer.fields.keys()),
-                         set(['id', 'user', 'number', 'title', 'description', 'is_paid']))
+                         set(['id', 'user', 'number', 'title','description', 'is_paid']))
 
     def test_module_serializer_data(self):
         data = self.serializer.data
@@ -46,9 +47,12 @@ class ModuleSerializerTests(TestCase):
 
 
 class ModuleModelTests(TestCase):
-    """Класс ModuleModelTests тестирует функциональности созданной модели Model.
-    Проверяет, что все поля модели `Module` правильно сохранены, а также проверяет,
-    что строковое представление модуля соответствует его названию."""
+    """Класс ModuleModelTests тестирует
+    функциональности созданной модели Model.
+    Проверяет, что все поля модели `Module`
+    правильно сохранены, а также проверяет,
+    что строковое представление модуля
+    соответствует его названию."""
 
     def setUp(self):
         self.user = User.objects.create(username='testuser')
@@ -94,8 +98,6 @@ class TestDescriptionWordsValidator(unittest.TestCase):
             validator_description_words(value)
 
 
-
-
 class SectionListAPIViewTest(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
@@ -121,5 +123,3 @@ class SectionListAPIViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['title'], self.section.title)
-
-

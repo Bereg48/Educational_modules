@@ -4,9 +4,11 @@ from .validators import TitleValidator, validator_description_words
 
 
 class ModuleSerializer(serializers.ModelSerializer):
-    """Класс ModuleSerializer сериализует данные полученные в соответствии с установленной моделью класса Module,
+    """Класс ModuleSerializer сериализует данные полученные
+    в соответствии с установленной моделью класса Module,
     данные сериализуются, в рамках функциональности CRUD"""
-    description = serializers.CharField(validators=[validator_description_words])
+    description = serializers.CharField(
+        validators=[validator_description_words])
 
     class Meta:
         model = Module
@@ -15,7 +17,8 @@ class ModuleSerializer(serializers.ModelSerializer):
 
 
 class SectionSerializer(serializers.ModelSerializer):
-    """Класс SectionSerializer сериализует данные полученные в соответствии с установленной моделью класса Section,
+    """Класс SectionSerializer сериализует данные полученные
+    в соответствии с установленной моделью класса Section,
     данные сериализуются, в рамках функциональности CRUD"""
 
     class Meta:
@@ -25,7 +28,8 @@ class SectionSerializer(serializers.ModelSerializer):
 
 
 class TopicSerializer(serializers.ModelSerializer):
-    """Класс TopicSerializer сериализует данные полученные в соответствии с установленной моделью класса Topic,
+    """Класс TopicSerializer сериализует данные полученные
+    в соответствии с установленной моделью класса Topic,
     данные сериализуются, в рамках функциональности CRUD"""
 
     class Meta:

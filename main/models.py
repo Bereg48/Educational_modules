@@ -5,17 +5,20 @@ from users.models import User
 
 class Module(models.Model):
     """Модель Module"""
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, verbose_name='пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             null=False, verbose_name='пользователь')
     number = models.IntegerField(verbose_name='порядковый номер модуля')
     title = models.CharField(max_length=150, verbose_name='название модуля')
     description = models.TextField(verbose_name='описание модуля')
     is_paid = models.BooleanField(default=False, verbose_name='Модуль оплачен')
 
     def __str__(self):
-        return self.title # pragma: no cover
+
+        return self.title  # pragma: no cover
+
 
     def is_paid_by(self, user):
-        return self.paid_users.filter(id=user.id).exists()
+        return self.is_paid
 
     class Meta:
         verbose_name = 'Модуль'
@@ -28,11 +31,14 @@ class Section(models.Model):
     number = models.IntegerField(verbose_name='порядковый номер раздела')
     title = models.CharField(max_length=150, verbose_name='название раздела')
     description = models.TextField(verbose_name='описание раздела')
-    module = models.ForeignKey('Module', on_delete=models.CASCADE, null=True, verbose_name='Модуль',
+    module = models.ForeignKey('Module', on_delete=models.CASCADE,
+                               null=True, verbose_name='Модуль',
                                related_name='sections')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title # pragma: no cover
+        return self.title  # pragma: no cover
+
 
     class Meta:
         verbose_name = 'Раздел'
@@ -49,11 +55,14 @@ class Topic(models.Model):
     number = models.IntegerField(verbose_name='порядковый номер темы')
     title = models.CharField(max_length=150, verbose_name='название темы')
     description = models.TextField(verbose_name='описание темы')
-    section = models.ForeignKey('Section', on_delete=models.CASCADE, null=True, verbose_name='Раздел',
+    section = models.ForeignKey('Section', on_delete=models.CASCADE,
+                                null=True, verbose_name='Раздел',
                                 related_name='topics')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title # pragma: no cover
+        return self.title  # pragma: no cover
+
 
     class Meta:
         verbose_name = 'Тема'
@@ -66,14 +75,16 @@ class Topic(models.Model):
 
 
 class Payment(models.Model):
-    """Модель Payment (Платеж, которые нужно совершить для просмотра необходимого модуля модели Module """
+    """Модель Payment (Платеж, которые нужно совершить "\
+    для просмотра необходимого модуля модели Module """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.amount) # pragma: no cover
+        return str(self.amount)  # pragma: no cover
+
 
     class Meta:
         verbose_name = 'Платеж'
