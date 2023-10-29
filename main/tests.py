@@ -3,12 +3,13 @@ from main.validators import TitleValidator, validator_description_words
 from django.test import TestCase
 from .serializers import ModuleSerializer
 import unittest
-from main.models import Module, Section, Payment
+from main.models import Module, Section, Payment, Topic
 from rest_framework.test import APITestCase
 from rest_framework import status
 from users.models import User
 from django.urls import reverse
 from rest_framework.test import APIClient
+import json
 
 
 class ModuleSerializerTests(TestCase):
@@ -127,6 +128,90 @@ class SectionListAPIViewTest(APITestCase):
         self.assertEqual(response.data[0]['title'], self.section.title)
 
 
+class SectionCreateAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+        self.section = Section.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Section',
+            module=self.module
+        )
+
+    def test_section_create_api_view(self):
+        url = '/section/create/'
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.post(url, data={'title': 'New Section', 'module': self.module.id, 'number': 1,
+                                               'description': 'Section description', 'user': self.superuser.id})
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Section.objects.count(), 2)
+
+
+class SectionUpdateAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+        self.section = Section.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Section',
+            module=self.module
+        )
+
+    def test_section_update_api_view(self):
+        url = f'/section/update/{self.section.id}/'
+        self.client.force_authenticate(user=self.superuser)
+        data = {'number': 1, 'user': self.superuser.id, 'title': 'Updated Title', 'description': 'Updated Description'}
+        response = self.client.put(url, data=json.dumps(data), content_type='application/json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class SectionDestroyAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+        self.section = Section.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Section',
+            module=self.module
+        )
+
+    def test_section_destroy_api_view(self):
+        url = f'/section/delete/{self.section.id}/'
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
 class PaymentCreateAPIViewTestCase(TestCase):
 
     def setUp(self):
@@ -157,3 +242,174 @@ class PaymentCreateAPIViewTestCase(TestCase):
         self.assertEqual(payment.user, self.user)
         self.assertEqual(payment.module, self.module)
         self.assertEqual(payment.amount, self.payment_amount)
+
+
+class ModuleCreateAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+
+    def test_module_create_api_view(self):
+        url = '/module/create/'
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.post(url, data={'title': 'Module 1', 'number': 1,
+                                               'description': 'Module 1 description', 'user': self.superuser.id})
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Module.objects.count(), 2)
+
+
+class ModuleUpdateAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+
+    def test_module_update_api_view(self):
+        url = f'/module/update/{self.module.id}/'
+        self.client.force_authenticate(user=self.superuser)
+        data = {'number': 1, 'user': self.superuser.id, 'title': 'Updated Title', 'description': 'Updated Description'}
+        response = self.client.put(url, data=json.dumps(data), content_type='application/json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class ModuleDestroyAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+
+    def test_module_destroy_api_view(self):
+        url = f'/module/delete/{self.module.id}/'
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+class TopicCreateAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+        self.section = Section.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Section',
+            module=self.module
+        )
+        self.topic = Topic.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Topic',
+            description='Topic 1 description',
+            section=self.section
+        )
+
+    def test_topic_create_api_view(self):
+        url = '/topic/create/'
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.post(url, data={'title': 'New Topic', 'section': self.section.id, 'number': 1,
+                                               'description': 'Topic description', 'user': self.superuser.id})
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Topic.objects.count(), 2)
+
+
+class TopicUpdateAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+        self.section = Section.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Section',
+            module=self.module
+        )
+        self.topic = Topic.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Topic',
+            description='Topic 1 description',
+            section=self.section
+        )
+
+    def test_topic_update_api_view(self):
+        url = f'/topic/update/{self.topic.id}/'
+        self.client.force_authenticate(user=self.superuser)
+        data = {'number': 1, 'user': self.superuser.id, 'title': 'Updated Title',
+                'description': 'Updated Description'}
+        response = self.client.put(url, data=json.dumps(data), content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class TopicDestroyAPIViewTest(APITestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username='admin', password='testpassword'
+        )
+        self.module = Module.objects.create(
+            user=self.superuser,
+            number=1,
+            title='Module 1',
+            description='Module 1 description',
+            is_paid=True
+        )
+        self.section = Section.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Section',
+            module=self.module
+        )
+        self.topic = Topic.objects.create(
+            user=self.superuser,
+            number=1,
+            title='New Topic',
+            description='Topic 1 description',
+            section=self.section
+        )
+
+    def test_topic_destroy_api_view(self):
+        url = f'/topic/delete/{self.topic.id}/'
+        self.client.force_authenticate(user=self.superuser)
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
