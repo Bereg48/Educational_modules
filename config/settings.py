@@ -81,6 +81,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # DATABASES Docker
 
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -91,6 +92,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'PASSWORD': 454125,
 #     }
 # }
+
 
 # DATABASES local
 

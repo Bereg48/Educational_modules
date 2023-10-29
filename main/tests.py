@@ -3,13 +3,18 @@ from main.validators import TitleValidator, validator_description_words
 from django.test import TestCase
 from .serializers import ModuleSerializer
 import unittest
+
 from main.models import Module, Section, Payment, Topic
+
+
 from rest_framework.test import APITestCase
 from rest_framework import status
 from users.models import User
 from django.urls import reverse
 from rest_framework.test import APIClient
+
 import json
+
 
 
 class ModuleSerializerTests(TestCase):
@@ -212,6 +217,7 @@ class SectionDestroyAPIViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
+
 class PaymentCreateAPIViewTestCase(TestCase):
 
     def setUp(self):
@@ -242,6 +248,7 @@ class PaymentCreateAPIViewTestCase(TestCase):
         self.assertEqual(payment.user, self.user)
         self.assertEqual(payment.module, self.module)
         self.assertEqual(payment.amount, self.payment_amount)
+
 
 
 class ModuleCreateAPIViewTest(APITestCase):
@@ -413,3 +420,4 @@ class TopicDestroyAPIViewTest(APITestCase):
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
