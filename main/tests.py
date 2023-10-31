@@ -76,6 +76,10 @@ class ModuleModelTests(TestCase):
 
 
 class TestTitleValidator(unittest.TestCase):
+    """Класс TestTitleValidator тестирует функциональность
+    класса TitleValidator, который валидирует значение
+    поля title, которое должно состоять только из букв,
+    цифр и символов: точка, тире и пробел."""
     def test_valid_title(self):
         validator = TitleValidator(field='title')
         value = {'title': 'Invalid Title!'}
@@ -413,3 +417,7 @@ class TopicDestroyAPIViewTest(APITestCase):
         response = self.client.delete(url)
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+
+
