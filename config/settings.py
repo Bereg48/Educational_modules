@@ -23,8 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d93dbk+6gm+srsb8e9--(g%((0#bd3n9twpnr$jcqca$cx+g6p'
-# SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -85,37 +84,30 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'HOST': 'db',
-#         'PORT': 5432,
-#         'PASSWORD': 454125,
+#         'NAME': os.getenv("POSTGRES_DB"),
+#         'USER': os.getenv("POSTGRES_USER"),
+#         'HOST': os.getenv("POSTGRES_HOST"),  # Адрес, на котором разв-т сервер БД
+#         'PORT': os.getenv("POSTGRES_PORT"),  # Порт, на котором работает сервер БД
+#         'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
 #     }
 # }
+
+
 
 # DATABASES local
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': os.getenv("NAME_DB"),
-#         'USER': os.getenv("USER_DB"),
-#         'HOST': os.getenv("HOST_DB"),  # Адрес, на котором разв-т сервер БД
-#         'PORT': os.getenv("PORT_DB"),  # Порт, на котором работает сервер БД
-#         'PASSWORD': os.getenv("DB_PASSWORD"),
-#     }
-# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'educational',
-        'USER': 'postgres',
-        'HOST': '127.0.0.1',  # Адрес, на котором развернут сервер БД
-        'PORT': 5432,  # Порт, на котором работает сервер БД
-        'PASSWORD': 454125,
+        'NAME': os.getenv("NAME_DB"),
+        'USER': os.getenv("USER_DB"),
+        'HOST': os.getenv("HOST_DB"),  # Адрес, на котором разв-т сервер БД
+        'PORT': os.getenv("PORT_DB"),  # Порт, на котором работает сервер БД
+        'PASSWORD': os.getenv("DB_PASSWORD"),
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

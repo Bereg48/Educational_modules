@@ -13,7 +13,7 @@ app_name = UsersConfig.name
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('', UserListCreateView.as_view(), name='user-list'),
-    path('<int:pk>/', UserRetrieveUpdateDestroyView.as_view(),
-         name='user-details'),
+
+    path('', UserListCreateView.as_view(), name='user-list'),  # для регистрации пользователя пройди по url = 'user/'
+    path('<int:pk>/', UserRetrieveUpdateDestroyView.as_view(),  # для просмотра пользователя пройди по url = 'user/<int:pk>/'
 ]
