@@ -19,3 +19,4 @@ urlpatterns = [
     path('delete/<int:pk>/', UserDestroyAPIView.as_view(),
          name='user-delete'),
 ]
+
