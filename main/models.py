@@ -15,7 +15,9 @@ class Module(models.Model):
     is_paid = models.BooleanField(default=False, verbose_name='Модуль оплачен')
 
     def __str__(self):
+
         return self.title  # pragma: no cover
+
 
     def is_paid_by(self, user):
         return self.is_paid
@@ -40,6 +42,7 @@ class Section(models.Model):
     def __str__(self):
         return self.title  # pragma: no cover
 
+
     class Meta:
         verbose_name = 'Раздел'
         verbose_name_plural = 'Разделы'
@@ -63,6 +66,7 @@ class Topic(models.Model):
     def __str__(self):
         return self.title  # pragma: no cover
 
+
     class Meta:
         verbose_name = 'Тема'
         verbose_name_plural = 'Темы'
@@ -83,6 +87,7 @@ class Payment(models.Model):
 
     def __str__(self):
         return str(self.amount)  # pragma: no cover
+
 
     class Meta:
         verbose_name = 'Платеж'
