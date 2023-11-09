@@ -13,8 +13,8 @@ class TitleValidator:
         self.field = field
 
     def __call__(self, value):
-        reg = re.compile('^[a-zA-Z0-9\,\-\.\ ]+$')
-        tmp_val = value.get(self.field)  # Получение значения поля title из словаря
+        reg = re.compile('^[a-zA-Z0-9,-. ]+$')
+        tmp_val = value.get(self.field)  # Получение значения title из словаря
         if not bool(reg.match(tmp_val)):
             raise ValidationError('Title is not ok')
         return None
