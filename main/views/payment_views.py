@@ -7,7 +7,8 @@ from main.serializers import PaymentSerializer
 
 
 class PaymentCreateAPIView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]  # требуется аутентификация пользователя
+    permission_classes = [IsAuthenticated]  # требуется
+    # аутентификация пользователя
     serializer_class = PaymentSerializer
 
     def create(self, request, *args, **kwargs):
@@ -21,4 +22,5 @@ class PaymentCreateAPIView(generics.CreateAPIView):
         payment_amount = 100  # Пример суммы платежа
         payment = Payment(user=user, module=module, amount=payment_amount)
         payment.save()
-        return Response({'message': 'Payment successful'}, status=status.HTTP_201_CREATED)
+        return Response({'message': 'Payment successful'},
+                        status=status.HTTP_201_CREATED)

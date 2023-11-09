@@ -24,8 +24,9 @@ class ModuleCreateAPIView(generics.CreateAPIView):
     permission_classes = [permissions.IsAdminUser]
 
     def perform_create(self, serializer):
-        """Метод perform_create вызывается при создании нового объекта модуля
-        и сохраняет пользователя (self.request.user) в поле user сериализатора."""
+        """Метод perform_create вызывается при создании
+        нового объекта модуля и сохраняет пользователя
+        (self.request.user) в поле user сериализатора."""
         serializer.save(user=self.request.user)
 
 
@@ -37,17 +38,20 @@ class ModuleRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = ModuleSerializer
 
     def get_object(self):
-        """Метод get_object вызывается для получения конкретного объекта модуля,
-        который будет просмотрен. В этом методе выполняется проверка, оплачен ли
-        модуль пользователем (module.is_paid_by(user)). Если модуль не был оплачен,
-        вызывается исключение PermissionDenied с соответствующим сообщением.
-        Если модуль оплачен, возвращается объект модуля"""
+        """Метод get_object вызывается для получения конкретного
+        объекта модуля, который будет просмотрен. В этом методе
+        выполняется проверка, оплачен ли модуль пользователем
+        (module.is_paid_by(user)). Если модуль не был оплачен,
+        вызывается исключение PermissionDenied с соответствующим
+        сообщением. Если модуль оплачен, возвращается объект модуля"""
         module = super().get_object()
         user = self.request.user
-        if not module.is_paid_by(user):  # Проверяем, оплатил ли пользователь модуль
+        if not module.is_paid_by(user):  # Проверяем,
+            # оплатил ли пользователь модуль
             raise PermissionDenied(
                 'You are not allowed'
-                'to view this module in detail.')  # Вызываем исключение, если модуль не оплачен
+                'to view this module in detail.')  # Вызываем исключение,
+            # если модуль не оплачен
         return module
 
 
@@ -60,9 +64,10 @@ class ModuleUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAdminUser]
 
     def get_queryset(self):
-        """Метод get_queryset возвращает запрос, который получает все объекты
-        модели Module, отфильтрованные по полю user, который соответствует
-        текущему пользователю (self.request.user)."""
+        """Метод get_queryset возвращает запрос, который получает
+        все объекты модели Module, отфильтрованные по полю user,
+        который соответствует текущему пользователю
+        (self.request.user)."""
         return Module.objects.filter(user=self.request.user)
 
 

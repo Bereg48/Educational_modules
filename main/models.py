@@ -2,6 +2,8 @@ from django.db import models
 
 from users.models import User
 
+NULLABLE = {'blank': True, 'null': True}
+
 
 class Module(models.Model):
     """Модель Module"""
@@ -35,6 +37,7 @@ class Section(models.Model):
                                null=True, verbose_name='Модуль',
                                related_name='sections')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_paid = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title  # pragma: no cover
@@ -70,8 +73,8 @@ class Topic(models.Model):
         ordering = ['id']
 
     def can_access(self, user):
-        # Проверка, можно ли пользователю получить доступ к теме
-        return self.section.can_access(user)
+        return self.section.is_paid and self.section.module.is_paid or \
+            self.section.can_access(user)
 
 
 class Payment(models.Model):
@@ -91,3 +94,25 @@ class Payment(models.Model):
         verbose_name_plural = 'Платежи'
         ordering = ['id']
         unique_together = ['user', 'module']
+
+
+class UserModuleProgress(models.Model):
+    """Модель UserModuleProgress (Прогресс пользователя в модуле)"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    module = models.ForeignKey(Module, on_delete=models.CASCADE)
+    progress = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.user.email} - {self.module.title} - {self.progress}'
+
+    class Meta:
+        verbose_name = 'Прогресс пользователя в модуле'
+        verbose_name_plural = 'Прогресс пользователей в модулях'
+        ordering = ['id']
+        unique_together = ['user', 'module']
+
+    @classmethod
+    def update_user_progress(cls, user, module, progress):
+        cls.objects.update_or_create(
+            user=user, module=module, defaults={'progress': progress}
+        )

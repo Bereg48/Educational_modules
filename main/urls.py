@@ -1,16 +1,19 @@
 from django.urls import path
 
 from .apps import MainConfig
-from .views.module_views import ModuleListAPIView, ModuleCreateAPIView,\
-    ModuleRetrieveAPIView, ModuleUpdateAPIView, \
-    ModuleDestroyAPIView
-from .views.payment_views import PaymentCreateAPIView
-from .views.section_views import SectionListAPIView, SectionCreateAPIView,\
+from main.views.module_views import ModuleListAPIView, \
+    ModuleCreateAPIView, ModuleRetrieveAPIView, \
+    ModuleUpdateAPIView, ModuleDestroyAPIView
+from main.views.payment_views import PaymentCreateAPIView
+from main.views.section_views import SectionListAPIView, \
+    SectionCreateAPIView, \
     SectionRetrieveAPIView, SectionUpdateAPIView, \
     SectionDestroyAPIView
-from .views.topic_views import TopicListAPIView, TopicCreateAPIView,\
-    TopicRetrieveAPIView, TopicUpdateAPIView, \
+from main.views.topic_views import TopicListAPIView, \
+    TopicCreateAPIView, TopicRetrieveAPIView, TopicUpdateAPIView, \
     TopicDestroyAPIView
+from .views.user_module_progress_views import ListUserModuleProgressView, CreateUserModuleProgressView, \
+    RetrieveUserModuleProgressView, UpdateUserModuleProgressView, DeleteUserModuleProgressView
 
 app_name = MainConfig.name
 
@@ -47,5 +50,15 @@ urlpatterns = [
          TopicDestroyAPIView.as_view(), name='topic-destroy'),
     path('payment/create/<int:module_id>/',
          PaymentCreateAPIView.as_view(), name='payment-create'),
+    path('progress/',
+         ListUserModuleProgressView.as_view(), name='progress-list'),
+    path('progress/create/',
+         CreateUserModuleProgressView.as_view(), name='progress-create'),
+    path('progress/<int:pk>/',
+         RetrieveUserModuleProgressView.as_view(), name='topic-retrieve'),
+    path('progress/update/<int:pk>/',
+         UpdateUserModuleProgressView.as_view(), name='progress-update'),
+    path('progress/delete/<int:pk>/',
+         DeleteUserModuleProgressView.as_view(), name='topic-destroy'),
 
 ]
