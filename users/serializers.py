@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
         groups_data = validated_data.pop('groups', [])
         permissions_data = validated_data.pop('user_permissions', [])
 
-        instance = User.objects.create_user(**validated_data)  # Create a new user instance
+        instance = User.objects.create_user(**validated_data)
 
         if password is not None:
             instance.set_password(password)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Module, Section, Topic, Payment
+from .models import Module, Section, Topic, Payment, UserModuleProgress
 from .validators import TitleValidator, validator_description_words
 
 
@@ -41,4 +41,13 @@ class TopicSerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
+        fields = '__all__'
+
+
+class UserModuleProgressSerializer(serializers.ModelSerializer):
+    """Класс UserModuleProgressSerializer сериализует данные полученные
+        в соответствии с установленной моделью класса UserModuleProgress,
+        данные сериализуются, в рамках функциональности CRUD"""
+    class Meta:
+        model = UserModuleProgress
         fields = '__all__'

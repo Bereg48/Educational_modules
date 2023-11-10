@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -18,32 +17,48 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='topic',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
             model_name='section',
             name='module',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='sections', to='main.module', verbose_name='Модуль'),
+            field=models.ForeignKey(null=True,
+                                    on_delete=django.db.models.
+                                    deletion.CASCADE,
+                                    related_name='sections', to='main.module',
+                                    verbose_name='Модуль'),
         ),
         migrations.AddField(
             model_name='section',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='payment',
             name='module',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.module'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='main.module'),
         ),
         migrations.AddField(
             model_name='payment',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='module',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='пользователь'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name='пользователь'),
         ),
         migrations.AlterUniqueTogether(
             name='payment',

@@ -15,14 +15,18 @@ class Migration(migrations.Migration):
             name='Module',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True,
-                                           serialize=False, verbose_name='ID')),
+                                           serialize=False,
+                                           verbose_name='ID')),
                 ('number', models.IntegerField(verbose_name='порядковый'
                                                             'номер модуля')),
                 ('title', models.CharField(max_length=150,
-                                           verbose_name='название модуля')),
-                ('description', models.TextField(verbose_name='описание модуля')),
+                                           verbose_name='название'
+                                                        'модуля')),
+                ('description', models.TextField(verbose_name='описание'
+                                                              'модуля')),
                 ('is_paid', models.BooleanField(default=False,
-                                                verbose_name='Модуль оплачен')),
+                                                verbose_name='Модуль'
+                                                             'оплачен')),
             ],
             options={
                 'verbose_name': 'Модуль',
@@ -33,8 +37,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Payment',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=10)),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True,
+                                           serialize=False,
+                                           verbose_name='ID')),
+                ('amount', models.DecimalField(decimal_places=2,
+                                               max_digits=10)),
                 ('payment_date', models.DateTimeField(auto_now_add=True)),
             ],
             options={
@@ -47,11 +54,14 @@ class Migration(migrations.Migration):
             name='Section',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True,
-                                           serialize=False, verbose_name='ID')),
-                ('number', models.IntegerField(verbose_name='порядковый номер раздела')),
+                                           serialize=False,
+                                           verbose_name='ID')),
+                ('number', models.IntegerField(verbose_name='порядковый'
+                                                            'номер раздела')),
                 ('title', models.CharField(max_length=150,
                                            verbose_name='название раздела')),
-                ('description', models.TextField(verbose_name='описание раздела')),
+                ('description', models.TextField(verbose_name='описание'
+                                                              'раздела')),
             ],
             options={
                 'verbose_name': 'Раздел',
@@ -62,12 +72,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Topic',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.IntegerField(verbose_name='порядковый номер темы')),
-                ('title', models.CharField(max_length=150, verbose_name='название темы')),
-                ('description', models.TextField(verbose_name='описание темы')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True,
+                                           serialize=False,
+                                           verbose_name='ID')),
+                ('number', models.IntegerField(verbose_name='порядковый'
+                                                            'номер темы')),
+                ('title', models.CharField(max_length=150,
+                                           verbose_name='название темы')),
+                ('description', models.TextField(verbose_name='описание'
+                                                              'темы')),
                 ('section',
-                 models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='topics',
+                 models.ForeignKey(null=True,
+                                   on_delete=django.db.models.deletion.CASCADE,
+                                   related_name='topics',
                                    to='main.section', verbose_name='Раздел')),
             ],
             options={
